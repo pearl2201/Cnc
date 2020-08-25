@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MalwareLib", "MalwareLib\MalwareLib.csproj", "{04C32738-B1B3-481B-A3BD-1817B33F7007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnc.Api", "Cnc.Api\Cnc.Api.csproj", "{9A3B61DF-80B7-4877-B08F-C91E5066DA34}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CncServer", "CncServer\CncServer.csproj", "{902E081D-6305-470F-82AD-7B31CA0563B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnc.Client", "Cnc.Client\Cnc.Client.csproj", "{E1CCB9DE-FB61-45F7-B15D-C4583B3CB5B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CncClient", "CncClient\CncClient.csproj", "{2988B9B5-F1E2-4538-867A-4E581F546D49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnc.Server", "Cnc.Server\Cnc.Server.csproj", "{FBCD44C9-15A3-4902-A97C-946B40335CE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cnc.Shared", "Cnc.Shared\Cnc.Shared.csproj", "{7C34A15A-2317-424C-9407-2ADC38340E92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04C32738-B1B3-481B-A3BD-1817B33F7007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04C32738-B1B3-481B-A3BD-1817B33F7007}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04C32738-B1B3-481B-A3BD-1817B33F7007}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04C32738-B1B3-481B-A3BD-1817B33F7007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{902E081D-6305-470F-82AD-7B31CA0563B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{902E081D-6305-470F-82AD-7B31CA0563B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{902E081D-6305-470F-82AD-7B31CA0563B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{902E081D-6305-470F-82AD-7B31CA0563B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2988B9B5-F1E2-4538-867A-4E581F546D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2988B9B5-F1E2-4538-867A-4E581F546D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2988B9B5-F1E2-4538-867A-4E581F546D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2988B9B5-F1E2-4538-867A-4E581F546D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A3B61DF-80B7-4877-B08F-C91E5066DA34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A3B61DF-80B7-4877-B08F-C91E5066DA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A3B61DF-80B7-4877-B08F-C91E5066DA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A3B61DF-80B7-4877-B08F-C91E5066DA34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1CCB9DE-FB61-45F7-B15D-C4583B3CB5B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1CCB9DE-FB61-45F7-B15D-C4583B3CB5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1CCB9DE-FB61-45F7-B15D-C4583B3CB5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1CCB9DE-FB61-45F7-B15D-C4583B3CB5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCD44C9-15A3-4902-A97C-946B40335CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCD44C9-15A3-4902-A97C-946B40335CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCD44C9-15A3-4902-A97C-946B40335CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCD44C9-15A3-4902-A97C-946B40335CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C34A15A-2317-424C-9407-2ADC38340E92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C34A15A-2317-424C-9407-2ADC38340E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C34A15A-2317-424C-9407-2ADC38340E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C34A15A-2317-424C-9407-2ADC38340E92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ using Cnc.Shared.Messages;
 using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace Cnc.Client.Handlers
+namespace Cnc.Client.Handlers.Messages
 {
     public class AskCommandResponseHandler : IMessageHandler
     {
@@ -16,7 +16,7 @@ namespace Cnc.Client.Handlers
         {
             AskCommandResponse command = tempCommand as AskCommandResponse;
 
-            Console.WriteLine("Receiver AskCommandResponse: " + command.Command);
+            Console.WriteLine("[*] Receiver AskCommandResponse: " + command.Command);
 
             switch (command.Command)
             {

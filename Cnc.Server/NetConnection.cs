@@ -58,10 +58,7 @@ public class NetConnection : INetConnection
 
     public void SendMessage(string message)
     {
-        Console.WriteLine("Send Message: " + message);
         byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
-
-
         stream.Write(msg, 0, msg.Length);
     }
 
@@ -78,7 +75,6 @@ public class NetConnection : INetConnection
         if (bytes != 0)
         {
             responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            Console.WriteLine("Receive Message: " + responseData);
             return responseData;
         }
         throw new IOException();

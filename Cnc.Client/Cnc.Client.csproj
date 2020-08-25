@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cnc.Shared\Cnc.Shared.csproj" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Security.Principal" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

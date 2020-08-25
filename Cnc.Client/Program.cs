@@ -6,7 +6,7 @@ using Cnc.Shared.Handler;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Messages.Requests;
 using System.Text.Json;
-using Cnc.Client.Handlers;
+using Cnc.Client.Handlers.Messages;
 
 namespace Cnc.Client
 {

@@ -15,17 +15,10 @@ namespace Cnc.Server.Handlers
         public Task Handler<T>(INetConnection connection, T tempCommand)
         {
             AskCommandRequest command = tempCommand as AskCommandRequest;
-            Console.WriteLine("Receiver AskCommandRequest");
-            MessageWrapper messageWrapper = new MessageWrapper()
+            connection.SendMessage(PacketId.ACK_COMMAND_RESPONSE, new AskCommandResponse()
             {
-                PacketId = PacketId.ACK_COMMAND_RESPONSE,
-                Content = new AskCommandResponse()
-                {
-                    Command = Command.ASK_DATETIME
-                }
-            };
-            string messageWrapperText = JsonConvert.SerializeObject(messageWrapper);
-            connection.SendMessage(messageWrapperText);
+                Command = Command.ASK_DATETIME
+            });
             return Task.CompletedTask;
         }
     }
