@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Cnc.Server.Data;
+using Cnc.Insfrastructure.Data;
 using Cnc.Server.Handlers;
 using Cnc.Shared.Handlers;
 using Cnc.Shared.Messages;
@@ -22,9 +23,11 @@ namespace Cnc.Server
     {
         public IServiceProvider ServiceProvider { get; set; }
         public IConfiguration Configuration { get; }
+
+        
         public Application(IServiceCollection serviceCollection)
         {
-
+            Log.Information("[*] Build Configuration");
             Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
             var builder = new ConfigurationBuilder()
             .SetBasePath(System.IO.Directory.GetCurrentDirectory())
@@ -44,24 +47,26 @@ namespace Cnc.Server
 
         private void ConfigureServices(IServiceCollection services)
         {
+            Log.Information("[*] ConfigureServices");
             services.AddLogging();
 
             services.AddOptions();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(
-                Configuration.GetConnectionString("Cnc.Server"));
+                Configuration.GetConnectionString("Cnc"));
             });
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSingleton<PacketHandler>();
             services.AddSingleton<InMemoryMessageBusSubscriptionsManager>();
-
+            services.AddSingleton<NetworkingContext>();
             services.AddTransient<AskCommandRequestHandler>();
 
         }
 
         public void Run()
         {
+            Log.Information("[*] Application Run");
             TcpListener server = null;
             PacketHandler handler = ServiceProvider.GetRequiredService<PacketHandler>();
             AppSettings appSettings = ServiceProvider.GetRequiredService<IOptions<AppSettings>>().Value;
@@ -77,12 +82,10 @@ namespace Cnc.Server
 
                 // Start listening for client requests.
                 server.Start();
-                Log.Information("Application Start At Port: " + port);
+                Log.Information("[*] Application Start At Port: " + port);
                 // Enter the listening loop.
                 while (true)
                 {
-                    Console.WriteLine("[*] Waiting for a connection... ");
-
                     // Perform a blocking call to accept requests.
                     // You could also use server.AcceptSocket() here.
                     TcpClient client = server.AcceptTcpClient();
@@ -97,6 +100,10 @@ namespace Cnc.Server
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e);
             }
             finally
             {

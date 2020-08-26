@@ -1,4 +1,5 @@
-using Cnc.Client.Entities;
+
+using Cnc.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cnc.Client.Data

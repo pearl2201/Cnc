@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Cnc.Client.Entities
+namespace Cnc.Shared.Entities
 {
     public class Payload
     {
@@ -10,5 +10,9 @@ namespace Cnc.Client.Entities
         public string Name { get; set; }
 
         public string Path { get; set; }
+
+        public string ClassName { get; set; }
+
+        public string MethodName { get; set; }
     }
 }
