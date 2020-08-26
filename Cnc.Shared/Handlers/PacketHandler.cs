@@ -45,42 +45,47 @@ namespace Cnc.Shared.Handlers
         {
             Console.WriteLine("Receive: " + messageWrapperContent);
             var messageWrapper = MessageWrapper.Parse(messageWrapperContent);
-            var content = messageWrapper.Content;
-
-            var eventName = content.GetType().Name;
-            if (_subsManager.HasSubscriptionsForEvent(eventName))
+            if (messageWrapper != null)
             {
-                using (var scope = _autofac.BeginLifetimeScope(AUTOFAC_SCOPE_NAME))
+
+                var content = messageWrapper.Content;
+
+                var eventName = content.GetType().Name;
+                if (_subsManager.HasSubscriptionsForEvent(eventName))
                 {
-                    var subscriptions = _subsManager.GetHandlersForEvent(eventName);
-                    foreach (var subscription in subscriptions)
+                    using (var scope = _autofac.BeginLifetimeScope(AUTOFAC_SCOPE_NAME))
                     {
-                        if (subscription.IsDynamic)
+                        var subscriptions = _subsManager.GetHandlersForEvent(eventName);
+                        foreach (var subscription in subscriptions)
                         {
-                            var handler = scope.ResolveOptional(subscription.HandlerType) as IDynamicMessageHandler;
-                            if (handler == null) continue;
+                            if (subscription.IsDynamic)
+                            {
+                                var handler = scope.ResolveOptional(subscription.HandlerType) as IDynamicMessageHandler;
+                                if (handler == null) continue;
 
-                            await Task.Yield();
-                            await handler.Handle(client,content);
-                        }
-                        else
-                        {
-                            var handler = scope.ResolveOptional(subscription.HandlerType);
-                            if (handler == null) continue;
-                            var eventType = _subsManager.GetEventTypeByName(eventName);
-                            var integrationEvent = content;
-                            var concreteType = typeof(IMessageHandler<>).MakeGenericType(eventType);
+                                await Task.Yield();
+                                await handler.Handle(client,content);
+                            }
+                            else
+                            {
+                                var handler = scope.ResolveOptional(subscription.HandlerType);
+                                if (handler == null) continue;
+                                var eventType = _subsManager.GetEventTypeByName(eventName);
+                                var integrationEvent = content;
+                                var concreteType = typeof(IMessageHandler<>).MakeGenericType(eventType);
 
-                            await Task.Yield();
-                            await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { client,integrationEvent });
+                                await Task.Yield();
+                                await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { client,integrationEvent });
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                _logger.LogWarning("No subscription for RabbitMQ event: {EventName}", eventName);
-            }
+                else
+                {
+                    _logger.LogWarning("No subscription for RabbitMQ event: {EventName}", eventName);
+                }
+
+            }        
         }
     }
 }

@@ -41,7 +41,7 @@ public class NetConnection : INetConnection
         }
         catch (Exception e)
         {
-            throw e;
+            Log.Error("Exeption {e}",e);
         }
         finally
         {

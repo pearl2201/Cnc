@@ -3,6 +3,7 @@ using Cnc.Shared.Messages.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using Serilog;
 
 namespace Cnc.Shared.Messages
 {
@@ -37,7 +38,8 @@ namespace Cnc.Shared.Messages
             {
                 return wr;
             }
-            throw new System.Exception($"[*] Parse Content Fail: {wr.PacketId} - {message}");
+            Log.Error($"[*] Parse Content Fail: {wr.PacketId} - {message}");
+            return null;
 
         }
     }

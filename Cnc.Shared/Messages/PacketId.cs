@@ -4,6 +4,8 @@ namespace Cnc.Shared.Messages
     {
         ACK_COMMAND_REQUEST = 1,
 
+        POST_CLIENTINFO_REQUEST = 2,
+
 
         ACK_DATETIME_RESPONSE = 1002,
 

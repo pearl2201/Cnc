@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net.Sockets;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Net;
@@ -13,13 +14,14 @@ namespace Cnc.Client.Networking
     {
         public TcpClient client;
         public NetworkStream stream;
-
+        public bool IsConnected{get;set;}
         public Byte[] data;
 
         public NetClient(IOptions<AppSettings> appSettingsOptions)
         {
             client = new TcpClient(appSettingsOptions.Value.Host, appSettingsOptions.Value.Port);
             stream = client.GetStream();
+            IsConnected = true;
         }
 
 
@@ -44,27 +46,38 @@ namespace Cnc.Client.Networking
 
             // Read the first batch of the TcpServer response bytes.
             Int32 bytes = stream.Read(data, 0, data.Length);
-            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            Console.WriteLine("Receive Message: " + responseData);
-            return responseData;
+            if (bytes != 0)
+            {
+                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                return responseData;
+            }
+            throw new IOException();
         }
 
         public void Close()
         {
+            IsConnected = false;
             stream.Close();
             client.Close();
         }
 
         public void SendMessage(PacketId packetId, IMessage message)
         {
-            MessageWrapper messageWrapper = new MessageWrapper()
+            if (IsConnected)
             {
-                PacketId = packetId,
-                Content = message
-            };
-            string messageWrapperText = JsonConvert.SerializeObject(messageWrapper);
-            Log.Information("Send message to server: {messageWrapperText}", messageWrapperText);
-            SendMessage(messageWrapperText);
+                     MessageWrapper messageWrapper = new MessageWrapper()
+                    {
+                        PacketId = packetId,
+                        Content = message
+                    };
+                    string messageWrapperText = JsonConvert.SerializeObject(messageWrapper);
+                    Log.Information("Send message to server: {messageWrapperText}", messageWrapperText);
+                    SendMessage(messageWrapperText);
+            }
+            else
+            {
+                Log.Information("NetClient don't connected, so send message fail");
+            }
         }
     }
 }

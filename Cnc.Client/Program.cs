@@ -9,6 +9,11 @@ using Cnc.Client.Handlers.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Microsoft.Extensions.Hosting;
+using Quartz.Extensions.Hosting;
+using Quartz;
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
 
 namespace Cnc.Client
 {
@@ -16,10 +21,27 @@ namespace Cnc.Client
     {
         static async Task Main(string[] args)
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            Application application = new Application(serviceCollection);
-            await application.Run();
+            await new HostBuilder()
+            .ConfigureServices((HostBuilderContext, serviceCollection) => {
+                ConfigureServices(serviceCollection);
+                StartUp application = new StartUp(serviceCollection);
+                serviceCollection.AddHostedService<Application>();
+               
+                     // Quartz.Extensions.Hosting hosting
+                
+            })
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                // registering services in the Autofac ContainerBuilder
+            })
+            .UseConsoleLifetime()
+            .Build()
+            .RunAsync()
+            ;
+            
+
+            
         }
 
         static private void ConfigureServices(IServiceCollection serviceCollection)
