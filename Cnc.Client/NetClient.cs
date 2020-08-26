@@ -2,7 +2,9 @@ using System;
 using System.Net.Sockets;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Net;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Cnc.Client.Networking
 {
@@ -14,9 +16,9 @@ namespace Cnc.Client.Networking
 
         public Byte[] data;
 
-        public NetClient(string server, int port)
+        public NetClient(IOptions<AppSettings> appSettingsOptions)
         {
-            client = new TcpClient(server, port);
+            client = new TcpClient(appSettingsOptions.Value.Host, appSettingsOptions.Value.Port);
             stream = client.GetStream();
         }
 
@@ -57,10 +59,11 @@ namespace Cnc.Client.Networking
         {
             MessageWrapper messageWrapper = new MessageWrapper()
             {
-                PacketId = PacketId.ACK_DATETIME_RESPONSE,
+                PacketId = packetId,
                 Content = message
             };
             string messageWrapperText = JsonConvert.SerializeObject(messageWrapper);
+            Log.Information("Send message to server: {messageWrapperText}", messageWrapperText);
             SendMessage(messageWrapperText);
         }
     }

@@ -2,11 +2,13 @@
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Cnc.Client.Networking;
-using Cnc.Shared.Handler;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Messages.Requests;
 using System.Text.Json;
 using Cnc.Client.Handlers.Messages;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Cnc.Client
 {
@@ -14,43 +16,19 @@ namespace Cnc.Client
     {
         static async Task Main(string[] args)
         {
-            await Connect();
+            IServiceCollection serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            Application application = new Application(serviceCollection);
+            await application.Run();
         }
 
-        static async Task Connect()
+        static private void ConfigureServices(IServiceCollection serviceCollection)
         {
-            NetClient client = null;
-            try
-            {
-
-                client = new NetClient("localhost", 13000);
-                PacketHandler handler = new PacketHandler();
-                handler.AddHandler(PacketId.ACK_COMMAND_RESPONSE, new AskCommandResponseHandler());
-
-                client.SendMessage(PacketId.ACK_COMMAND_REQUEST, new AskCommandRequest());
-
-                while (true)
-                {
-
-                    var message = client.ReadMessage();
-                    await handler.Handler(client, message);
-                }
-
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine("ArgumentNullException: {0}", e);
-            }
-            catch (SocketException e)
-            {
-                Console.WriteLine("SocketException: {0}", e);
-            }
-            finally
-            {
-                client.Close();
-            }
-
-
+            Log.Logger = new LoggerConfiguration()
+               .Enrich.FromLogContext()
+               .WriteTo.Console()
+               .CreateLogger();
+            serviceCollection.AddSingleton(Log.Logger);
         }
     }
 }

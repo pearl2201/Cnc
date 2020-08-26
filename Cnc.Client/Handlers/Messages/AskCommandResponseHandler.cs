@@ -10,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace Cnc.Client.Handlers.Messages
 {
-    public class AskCommandResponseHandler : IMessageHandler
+    public class AskCommandResponseHandler : IMessageHandler<AskCommandResponse>
     {
-        public Task Handler<T>(INetConnection connection, T tempCommand)
+
+        public Task Handle(INetConnection connection, AskCommandResponse command)
         {
-            AskCommandResponse command = tempCommand as AskCommandResponse;
 
             Console.WriteLine("[*] Receiver AskCommandResponse: " + command.Command);
 

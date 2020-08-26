@@ -4,8 +4,8 @@ using Cnc.Shared.Net;
 
 namespace Cnc.Shared.Handlers
 {
-    public interface IMessageHandler<T>
+    public interface IDynamicMessageHandler
     {
-        Task Handle(INetConnection connection, T command);
+        Task Handle(INetConnection connection, dynamic eventData);
     }
 }
