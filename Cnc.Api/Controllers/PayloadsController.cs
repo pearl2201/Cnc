@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cnc.Api.Data;
-using Cnc.Api.Entities;
+using Cnc.Insfrastructure.Data;
+using Cnc.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
