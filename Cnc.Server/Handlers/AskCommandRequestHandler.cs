@@ -10,11 +10,10 @@ using Newtonsoft.Json;
 
 namespace Cnc.Server.Handlers
 {
-    public class AskCommandRequestHandler : IMessageHandler
+    public class AskCommandRequestHandler : IMessageHandler<AskCommandRequest>
     {
-        public Task Handler<T>(INetConnection connection, T tempCommand)
+        public Task Handle(INetConnection connection, AskCommandRequest command)
         {
-            AskCommandRequest command = tempCommand as AskCommandRequest;
             connection.SendMessage(PacketId.ACK_COMMAND_RESPONSE, new AskCommandResponse()
             {
                 Command = Command.ASK_DATETIME

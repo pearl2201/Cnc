@@ -2,10 +2,11 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Cnc.Shared.Handler;
+using Cnc.Shared.Handlers;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Net;
 using Newtonsoft.Json;
+using Serilog;
 
 public class NetConnection : INetConnection
 {
@@ -84,10 +85,11 @@ public class NetConnection : INetConnection
     {
         MessageWrapper messageWrapper = new MessageWrapper()
         {
-            PacketId = PacketId.ACK_DATETIME_RESPONSE,
+            PacketId = packetId,
             Content = message
         };
         string messageWrapperText = JsonConvert.SerializeObject(messageWrapper);
+        Log.Information("Send Message: {messageWrapperText}", messageWrapperText);
         SendMessage(messageWrapperText);
     }
 }
