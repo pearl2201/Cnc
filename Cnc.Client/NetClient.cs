@@ -79,5 +79,10 @@ namespace Cnc.Client.Networking
                 Log.Information("NetClient don't connected, so send message fail");
             }
         }
+
+        public string GetIpAddress()
+        {
+            return client.Client.RemoteEndPoint.ToString();
+        }
     }
 }

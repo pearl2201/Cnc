@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cnc.Client.Handlers.Machine;
 using Cnc.Client.Networking;
 using Cnc.Shared.Messages;
 using Cnc.Shared.Messages.Requests;
@@ -9,19 +10,28 @@ namespace Cnc.Client.SchedulerJobs
 {
     public class SubmitClientInfoJob : IJob
     {
-        
+
         private readonly NetClient _client;
-        public SubmitClientInfoJob(NetClient client)
+
+        private readonly MachineHandler _machineHandler;
+
+        public SubmitClientInfoJob(NetClient client, MachineHandler machineHandler)
         {
-            Log.Information("[*] SubmitClientInfoJob Initialize");
+            Log.Information("[*] SubmitClientInfoJob Initialize 2");
             _client = client;
+            _machineHandler = machineHandler;
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            _client.SendMessage(PacketId.POST_CLIENTINFO_REQUEST,new PostClientInfoRequest(){
-                ClientInfo = new Shared.Entities.ClientInfo(){
-                  OperationSystem = "Window"  
+            _client.SendMessage(PacketId.POST_CLIENTINFO_REQUEST, new PostClientInfoRequest()
+            {
+                ClientInfo = new Shared.Entities.ClientInfo()
+                {
+                    OperationSystem = _machineHandler.OSPlatform.ToString(),
+                    ComputerName = _machineHandler.GetMachineName(),
+                    Username = _machineHandler.GetCurrentUsername(),
+                    MacAddress = _machineHandler.GetFirstMacAddress()
                 }
             });
             return Task.CompletedTask;

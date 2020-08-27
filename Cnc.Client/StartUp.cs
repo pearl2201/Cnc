@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Cnc.Client.Data;
+using Cnc.Client.Handlers.Machine;
 using Cnc.Client.Handlers.Messages;
 using Cnc.Client.Networking;
 using Cnc.Client.SchedulerJobs;
@@ -55,6 +56,7 @@ namespace Cnc.Client
             services.AddSingleton<PacketHandler>();
             services.AddSingleton<InMemoryMessageBusSubscriptionsManager>();
             services.AddTransient<AskCommandResponseHandler>();
+            services.AddSingleton<MachineHandler>();
             services.AddQuartz(q => {
                 // handy when part of cluster or you want to otherwise identify multiple schedulers
                 q.SchedulerId = "Scheduler-Core";
@@ -93,7 +95,7 @@ namespace Cnc.Client
                     .ForJob(jobKey)
                     .StartNow()
                     .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMinutes(1)).RepeatForever())
-                    .WithDescription("Submit trigger every 30 minutes")
+                    .WithDescription("Submit trigger every 1 hours")
                 );
 
                

@@ -92,4 +92,9 @@ public class NetConnection : INetConnection
         Log.Information("Send Message: {messageWrapperText}", messageWrapperText);
         SendMessage(messageWrapperText);
     }
+
+    public string GetIpAddress()
+    {
+        return client.Client.RemoteEndPoint.ToString();
+    }
 }

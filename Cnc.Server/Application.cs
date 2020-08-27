@@ -62,6 +62,8 @@ namespace Cnc.Server
             services.AddSingleton<NetworkingContext>();
             services.AddTransient<AskCommandRequestHandler>();
 
+            services.AddTransient<PostClientInfoRequestHandler>();
+
         }
 
         public void Run()
@@ -71,6 +73,8 @@ namespace Cnc.Server
             PacketHandler handler = ServiceProvider.GetRequiredService<PacketHandler>();
             AppSettings appSettings = ServiceProvider.GetRequiredService<IOptions<AppSettings>>().Value;
             handler.Subscribe<AskCommandRequest, AskCommandRequestHandler>();
+            handler.Subscribe<PostClientInfoRequest, PostClientInfoRequestHandler>();
+
             try
             {
                 // Set the TcpListener on port 13000.

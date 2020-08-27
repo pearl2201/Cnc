@@ -8,5 +8,7 @@ namespace Cnc.Shared.Net
         void SendMessage(PacketId packetId, IMessage message);
         string ReadMessage();
         void Close();
+
+        string GetIpAddress();
     }
 }

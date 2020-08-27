@@ -30,6 +30,9 @@ namespace Cnc.Shared.Messages
                 case PacketId.ACK_DATETIME_RESPONSE:
                     wr.Content = JsonConvert.DeserializeObject<AskDatetimeResponse>(content);
                     break;
+                case PacketId.POST_CLIENTINFO_REQUEST:
+                    wr.Content = JsonConvert.DeserializeObject<PostClientInfoRequest>(content);
+                    break;
                 default:
                     break;
 
