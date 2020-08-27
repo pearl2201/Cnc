@@ -1,11 +1,13 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Text;
 
-namespace Cnc.Client.Handlers.Machine.Window
+namespace Cnc.Client.Handlers.Machine.Linux
 {
-    public class WindowHandler : IPlatformHandler
+    public class LinuxHandler : IPlatformHandler
     {
+
         public string CallCommand(string command)
         {
             var escapedArgs = command.Replace("\"", "\\\"");
@@ -14,7 +16,7 @@ namespace Cnc.Client.Handlers.Machine.Window
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "cmd.exe",
+                    FileName = "/bin/bash",
                     Arguments = $"-c \"{escapedArgs}\"",
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
@@ -30,12 +32,18 @@ namespace Cnc.Client.Handlers.Machine.Window
         public void CastCommand(string command)
         {
             var escapedArgs = command.Replace("\"", "\\\"");
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = $"-c \"{escapedArgs}\"";
-            process.StartInfo = startInfo;
+
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                }
+            };
             process.Start();
         }
     }

@@ -17,7 +17,6 @@ namespace Cnc.Client.SchedulerJobs
 
         public SubmitClientInfoJob(NetClient client, MachineHandler machineHandler)
         {
-            Log.Information("[*] SubmitClientInfoJob Initialize 2");
             _client = client;
             _machineHandler = machineHandler;
         }

@@ -18,16 +18,15 @@ namespace Cnc.Client.Handlers.Machine
         public MachineHandler(ILogger<MachineHandler> logger)
         {
             _logger = logger;
-            _logger.LogInformation("OSPlatform: start");
+         
             OSPlatform = GetOSPlatform();
-            _logger.LogInformation("OSPlatform: {OSPlatform}", OSPlatform);
             if (OSPlatform == OSPlatform.Windows)
             {
-                handler = new WindowHandler();
+                handler = new Linux.LinuxHandler();
             }
             else
             {
-                handler = new WindowHandler();
+                handler = new Linux.LinuxHandler();
             }
 
         }
